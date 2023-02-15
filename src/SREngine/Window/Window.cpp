@@ -3,6 +3,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "../MouseListener/MouseListener.h"
+
 
 void Window::Run()
 {
@@ -10,6 +12,12 @@ void Window::Run()
 
     Init();
     Loop();
+
+
+    // Free the memory
+    glfwDestroyWindow(window);
+    glfwTerminate();
+    glfwSetErrorCallback(NULL);
 
 }
 
@@ -33,6 +41,11 @@ void Window::Init()
     {
         std::cout << "Failed to create a window" << std::endl;
     }
+
+    glfwSetCursorPosCallback(window, MouseListener::MousePosCallback);
+    glfwSetMouseButtonCallback(window, MouseListener::MouseButtonCallback);
+    glfwSetScrollCallback(window, MouseListener::MousePosCallback);
+
 
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);
