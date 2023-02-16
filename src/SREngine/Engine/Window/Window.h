@@ -33,7 +33,7 @@ public:
     void Run();
     void Init();
     void Loop();
-
+    void ProccessInput();
 
 };
 

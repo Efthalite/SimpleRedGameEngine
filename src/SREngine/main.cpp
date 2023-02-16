@@ -4,11 +4,10 @@
 #include <GLFW/glfw3.h>
 #include <stb_image.h>
 
-#include "Window/Window.h"
-#include "MouseListener/MouseListener.h"
+#include "Engine/Window/Window.h"
+#include "Engine/MouseListener/MouseListener.h"
+#include "Engine/KeyListener/KeyListener.h"
 
-Window Window::w_Instance;
-MouseListener MouseListener::ml_Instance;
 
 
 int main()
@@ -16,6 +15,7 @@ int main()
     Window& window = Window::Get();
     window.Run();
     MouseListener& mListener = MouseListener::Get();
+
 
     
     std::cout << "test";

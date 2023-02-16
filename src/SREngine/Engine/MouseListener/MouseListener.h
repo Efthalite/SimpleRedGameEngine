@@ -9,8 +9,7 @@ class MouseListener
 private:
     static MouseListener ml_Instance;
 
-    MouseListener()
-    {}
+    MouseListener();
 
     // Variables
 
@@ -23,6 +22,8 @@ private:
 
 public:
     MouseListener(const MouseListener&) = delete;
+
+
     static MouseListener& Get()
     {
         return ml_Instance;
