@@ -13,6 +13,13 @@
 #include "../KeyListener/KeyListener.h"
 #include "../../Utils/Time.h"
 
+#include "../Scene/Scene.h"
+#include "../LevelEditorScene/LevelEditorScene.h"
+#include "../LevelScene/LevelScene.h"
+
+
+Time mTime;
+
 Window Window::w_Instance;
 MouseListener MouseListener::ml_Instance;
 KeyListener KeyListener::kl_Instance;
@@ -35,7 +42,7 @@ void Window::Run()
 void Window::Init()
 {
     
-    if(!glfwInit())
+    if(GL_TRUE != glfwInit())
     {
         std::cout << "GLFW is not initialized!" << std::endl;
     }
@@ -44,11 +51,12 @@ void Window::Init()
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);
+    glfwWindowHint(GLFW_OPENGL_ANY_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 
-    window = glfwCreateWindow(this->width, this->height, this->title.c_str(), NULL, NULL);
+    this->window = glfwCreateWindow(this->width, this->height, this->title.c_str(), NULL, NULL);
 
-    if(!window)
+    if(!this->window)
     {
         std::cout << "Failed to create a window" << std::endl;
     }
@@ -73,57 +81,41 @@ void Window::Init()
 
     glViewport(0, 0, this->width, this->height);
 
+    ChangeScene(0);
+
 }
 
 void Window::Loop()
 {   
-    float r = 1.0f, g = 1.0f, b = 1.0f;
+   
     bool fadeToBlack = false;
 
     float timeStarted;
     float timeEnded;
     float deltaTime = 0;
-    GLuint FPS = 0;
-    
-    float fpsTimeStarted = glfwGetTime();
-    float fpsTimeEnded = 0;
+    float FPS = 0;
+
 
     while (!glfwWindowShouldClose(window))
     {
-        timeStarted = glfwGetTime();
         glfwPollEvents();
         ProccessInput();
 
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(r, g, b, 1.0f);
-        
 
-        if(fpsTimeEnded - fpsTimeStarted  < 1.0f )
-        {
-            FPS++;
-
-        } 
-        else
-        {
-            //std::cout << "FPS : " << FPS << std::endl; 
-            glfwSetWindowTitle(window, ("fps : " + std::to_string(FPS) + title).c_str());
-             FPS = 0;
-             fpsTimeStarted = fpsTimeEnded;
-        }
-
+        currentScene->Update(deltaTime);
 
         
-
-        //std::cout << deltaTime << std::endl;
-        r = (sin(deltaTime) + cos(deltaTime)) * 0.5;
-        g = r;
+        glfwSetWindowTitle(this->window, ("FPS: " + std::to_string(FPS) + "\t" + this->title).c_str()); 
 
         glfwSwapBuffers(window);
         timeEnded = glfwGetTime();
 
         deltaTime = timeEnded - timeStarted;
-        fpsTimeEnded = glfwGetTime();
+        timeStarted = timeEnded;
         
+        FPS = 1 / deltaTime;
     }
     
 
@@ -137,6 +129,23 @@ void Window::ProccessInput()
     if(KeyListener::IsKeyPressed(GLFW_KEY_Q) || KeyListener::IsKeyPressed(GLFW_KEY_ESCAPE))
     {
         glfwSetWindowShouldClose(window, 1);
+    }
+}
+
+void Window::ChangeScene(int newScene)
+{
+    
+    switch(newScene)
+    {
+        case 0:
+            currentScene = new LevelEditorScene();
+            break;
+        case 1:
+            currentScene = new LevelScene();
+            break;
+        default:
+            std::cout << "Unknown scene \"" << newScene << "\"";
+            break;
     }
 }
 
