@@ -104,7 +104,12 @@ void Window::Loop()
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(r, g, b, 1.0f);
 
+
+        currentScene->Init();
         currentScene->Update(deltaTime);
+        
+       
+       
 
         
         glfwSetWindowTitle(this->window, ("FPS: " + std::to_string(FPS) + "\t" + this->title).c_str()); 

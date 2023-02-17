@@ -10,14 +10,12 @@
 
 
 
+
 int main()
 {
-    Window& window = Window::Get();
-    window.Run();
-    MouseListener& mListener = MouseListener::Get();
+    Window::Get().Run();
 
 
-    
     std::cout << "test";
 
     return 0;

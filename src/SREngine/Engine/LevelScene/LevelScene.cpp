@@ -10,7 +10,15 @@ void LevelScene::Update(float dt)
     
 }
 
+void LevelScene::Init()
+{
+    
+}
+
 LevelScene::LevelScene()
 {
     std::cout << "Inside level scene\n";
+    Window::Get().r = 1.0f;
+    Window::Get().g = 1.0f;
+    Window::Get().b = 1.0f;
 }

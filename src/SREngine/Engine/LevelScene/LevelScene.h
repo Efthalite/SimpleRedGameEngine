@@ -14,6 +14,7 @@ public:
     LevelScene();
 
     void Update(float dt) override;
+    void Init() override;
 
 };
 
