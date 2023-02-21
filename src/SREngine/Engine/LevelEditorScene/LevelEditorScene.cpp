@@ -26,27 +26,32 @@ LevelEditorScene::~LevelEditorScene()
 
 void LevelEditorScene::Update(float dt) 
 {
+    //std::cout << "call\n";
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
     glUseProgram(shaderProgram);
-    float uTime = glfwGetTime();
+    float uTime = glfwGetTime() * dt;
+    glBindVertexArray(vaoID);
 
     glUniform1f(glGetUniformLocation(shaderProgram, "u_Time"), uTime);
 
-    glBindVertexArray(vaoID);
+    
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
+
 
     glBindVertexArray(0);
     glUseProgram(0);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
 
 }
 
 void LevelEditorScene::Init()
 {
+    std::cout << "to check\n";
     
     vertexID = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexID, 1, &vertexShaderSource, 0);
@@ -119,6 +124,7 @@ void LevelEditorScene::Init()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    
 
 
 }

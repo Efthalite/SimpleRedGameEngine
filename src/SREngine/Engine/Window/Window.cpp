@@ -19,14 +19,21 @@
 
 
 Time mTime;
-
-Window Window::w_Instance;
-MouseListener MouseListener::ml_Instance;
 KeyListener KeyListener::kl_Instance;
+
+
+
+Window::Window() : 
+width(1920), height(1080), 
+title("SREngine")
+{
+
+}
+
 
 void Window::Run()
 {
-    std::cout << "GLFW " << glfwGetVersionString() << std::endl;
+    std::cout << "GLFW test " << glfwGetVersionString() << std::endl;
 
     Init();
     Loop();
@@ -41,7 +48,6 @@ void Window::Run()
 
 void Window::Init()
 {
-    
     if(GL_TRUE != glfwInit())
     {
         std::cout << "GLFW is not initialized!" << std::endl;
@@ -96,16 +102,18 @@ void Window::Loop()
     float FPS = 0;
 
 
+    currentScene->Init();
     while (!glfwWindowShouldClose(window))
     {
-        glfwPollEvents();
         ProccessInput();
+        glfwPollEvents();
+       
 
         glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(r, g, b, 1.0f);
 
 
-        currentScene->Init();
+        //currentScene->Init();
         currentScene->Update(deltaTime);
         
        
@@ -114,7 +122,8 @@ void Window::Loop()
         
         glfwSetWindowTitle(this->window, ("FPS: " + std::to_string(FPS) + "\t" + this->title).c_str()); 
 
-        glfwSwapBuffers(window);
+        glfwSwapBuffers(this->window);
+        
         timeEnded = glfwGetTime();
 
         deltaTime = timeEnded - timeStarted;
@@ -144,9 +153,11 @@ void Window::ChangeScene(int newScene)
     {
         case 0:
             currentScene = new LevelEditorScene();
+            //currentScene->Init();
             break;
         case 1:
             currentScene = new LevelScene();
+            currentScene->Init();
             break;
         default:
             std::cout << "Unknown scene \"" << newScene << "\"";

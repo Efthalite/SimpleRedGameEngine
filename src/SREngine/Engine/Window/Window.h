@@ -13,22 +13,19 @@ private:
     std::string title;
     GLFWwindow* window;
 
-    static Window w_Instance;
-
-
-    Window() 
-    {
-        this->width = 1920;
-        this->height = 1080;
-        this->title = "SR";
-    }
-
     Scene* currentScene;
 
+
+protected:
+
+
+    Window();
+
+    
 public:
-    Window(const Window&) = delete;
     static Window& Get()
     {
+        static  Window w_Instance;
         return w_Instance;
     }
     float r = 1.0f, g = 1.0f, b = 1.0f;

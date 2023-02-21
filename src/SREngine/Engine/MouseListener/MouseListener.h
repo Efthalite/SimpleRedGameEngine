@@ -7,10 +7,6 @@
 class MouseListener 
 {
 private:
-    static MouseListener ml_Instance;
-
-    MouseListener();
-
     // Variables
 
     double scrollX, scrollY;
@@ -20,14 +16,21 @@ private:
 
     GLuint buttonAmount;
 
-public:
-    MouseListener(const MouseListener&) = delete;
+protected:
 
+    
+    MouseListener();
+
+
+public:
 
     static MouseListener& Get()
     {
+        static MouseListener ml_Instance;
+
         return ml_Instance;
     }
+
 
     // Functions
 
