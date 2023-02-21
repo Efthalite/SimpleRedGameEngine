@@ -5,10 +5,12 @@ layout (location = 1) in vec4 aColor;
 
 out vec4 fColor;
 
+uniform float u_Time;
+
 
 void main()
 {
     fColor = aColor;
-    gl_Position = vec4(aPos, 1.0f);
+    gl_Position = vec4(aPos.x + cos(u_Time), aPos.yz, 1.0f);
 
 }

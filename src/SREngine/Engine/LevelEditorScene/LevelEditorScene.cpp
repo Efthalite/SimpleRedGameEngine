@@ -5,7 +5,10 @@
 #include "../KeyListener/KeyListener.h"
 #include "../Window/Window.h"
 
-LevelEditorScene::LevelEditorScene()
+
+
+LevelEditorScene::LevelEditorScene() :
+defaultShader("shaders/defaultVertex.glsl", "shaders/defaultFragment.glsl")
 {
     std::cout << "Inside Level editor scene\n";   
     std::cout << "initialization\n";
@@ -15,7 +18,7 @@ LevelEditorScene::~LevelEditorScene()
 {
 
 
-    glDeleteProgram(shaderProgram);
+    glDeleteProgram(defaultShader.getID());
     glDeleteBuffers(1, &vboID);
     glDeleteBuffers(1, &eboID);
     glDeleteVertexArrays(1, &vaoID);
@@ -29,79 +32,30 @@ void LevelEditorScene::Update(float dt)
     //std::cout << "call\n";
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
-    glUseProgram(shaderProgram);
-    float uTime = glfwGetTime() * dt;
+    defaultShader.Use();
+    float uTime = glfwGetTime();
     glBindVertexArray(vaoID);
 
-    glUniform1f(glGetUniformLocation(shaderProgram, "u_Time"), uTime);
+    glUniform1f(glGetUniformLocation(defaultShader.getID(), "u_Time"), uTime);
 
     
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 
+    defaultShader.Detach();
 
     glBindVertexArray(0);
-    glUseProgram(0);
-
-    glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(0);
     glDisableVertexAttribArray(1);
+    
+
+
 
 }
 
-void LevelEditorScene::Init()
+void LevelEditorScene::Init() 
 {
-    std::cout << "to check\n";
-    
-    vertexID = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexID, 1, &vertexShaderSource, 0);
-    glCompileShader(vertexID);
-
-    int success;
-    char errorLog[2048];
-
-    glGetShaderiv(vertexID, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-        std::cout << "Failed to compile Vertex Shader\n";
-
-        glGetShaderInfoLog(vertexID, sizeof(errorLog)/sizeof(errorLog[0]), NULL, errorLog);
-        std::cout << errorLog << "\n";   
-    }
-
-
-    fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentID, 1, &fragmentShaderSource, 0);
-    glCompileShader(fragmentID);
-
-    glGetShaderiv(fragmentID, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-        std::cout << "Failed to compile Fragment Shader\n";
-
-        glGetShaderInfoLog(fragmentID, sizeof(errorLog)/sizeof(errorLog[0]), NULL, errorLog);
-        std::cout << errorLog << "\n";   
-    }
-
-    shaderProgram = glCreateProgram();
-
-    glAttachShader(shaderProgram, vertexID);
-    glAttachShader(shaderProgram, fragmentID);
-    glLinkProgram(shaderProgram);
-
-    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-    if(!success)
-    {
-        std::cout << "Failed to link shaders\n";
-
-        glGetProgramInfoLog(shaderProgram, sizeof(errorLog)/sizeof(errorLog[0]), NULL, errorLog);
-        std::cout << errorLog << "\n";   
-    }
-
-    glDeleteShader(vertexID);
-    glDeleteShader(fragmentID);
-
-
 
     glGenVertexArrays(1, &vaoID);
     glBindVertexArray(vaoID);

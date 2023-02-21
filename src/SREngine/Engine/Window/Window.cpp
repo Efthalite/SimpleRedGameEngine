@@ -102,7 +102,6 @@ void Window::Loop()
     float FPS = 0;
 
 
-    currentScene->Init();
     while (!glfwWindowShouldClose(window))
     {
         ProccessInput();
@@ -113,7 +112,6 @@ void Window::Loop()
         glClearColor(r, g, b, 1.0f);
 
 
-        //currentScene->Init();
         currentScene->Update(deltaTime);
         
        
@@ -123,7 +121,7 @@ void Window::Loop()
         glfwSetWindowTitle(this->window, ("FPS: " + std::to_string(FPS) + "\t" + this->title).c_str()); 
 
         glfwSwapBuffers(this->window);
-        
+
         timeEnded = glfwGetTime();
 
         deltaTime = timeEnded - timeStarted;
@@ -153,7 +151,7 @@ void Window::ChangeScene(int newScene)
     {
         case 0:
             currentScene = new LevelEditorScene();
-            //currentScene->Init();
+            currentScene->Init();
             break;
         case 1:
             currentScene = new LevelScene();
