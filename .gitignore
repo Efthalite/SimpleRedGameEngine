@@ -1,2 +1,4 @@
 build/
 .vscode/
+external/glfw/.gitignore
+external/glm/.gitignore
