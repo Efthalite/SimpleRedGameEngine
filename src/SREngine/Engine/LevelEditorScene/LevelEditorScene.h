@@ -2,23 +2,28 @@
 #define ENGINE_LEVEL_EDITOR_SCENE_H
 
 #include "../Scene/Scene.h"
+#include "../Camera/Camera.h"
+
 #include "../../Renderer/Shader/Shader.h"
+#include "../../Renderer/Texture/Texture.h"
+
 
 class LevelEditorScene : public Scene
 {
 private:
 
     Shader defaultShader;
+    Texture defaultTexture;
 
     unsigned int vaoID, vboID, eboID;
 
-    float vertexArray[4*7] = 
+    float vertexArray[4*9] = 
     {
-        // Position                 // Color
-         0.5f, -0.5f,  0.0f,        1.0f, 0.0f, 0.0f, 1.0f,
-        -0.5f,  0.5f,  0.0f,        0.0f, 1.0f, 0.0f, 1.0f,
-         0.5f,  0.5f,  0.0f,        0.0f, 0.0f, 1.0f, 1.0f,
-        -0.5f, -0.5f,  0.0f,        1.0f, 1.0f, 0.0f, 1.0f
+        // Position                 // Color                    // UV Coordinates
+         0.5f, -0.5f,  0.0f,        1.0f, 0.0f, 0.0f, 1.0f,     1, 0,
+        -0.5f,  0.5f,  0.0f,        0.0f, 1.0f, 0.0f, 1.0f,     0, 1,
+         0.5f,  0.5f,  0.0f,        0.0f, 0.0f, 1.0f, 1.0f,     1, 1,
+        -0.5f, -0.5f,  0.0f,        1.0f, 1.0f, 0.0f, 1.0f,     0, 0
 
     };
 
@@ -35,6 +40,7 @@ public:
 
     void Update(float dt) override;
     void Init() override;
+    void MovingCamera(float dt);
 
 
 };

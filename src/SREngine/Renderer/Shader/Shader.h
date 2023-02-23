@@ -2,6 +2,7 @@
 #define RENDERER_SHADER_H
 
 #include <string>
+#include <glm/glm.hpp>
 
 
 class Shader
@@ -22,6 +23,16 @@ public:
     {
         return shaderProgramID;
     }
+
+
+    // uniform shares
+
+
+    void SetUniform1f(const char* uniformName, float value) const;
+    void SetUniformMatrix4f(const char* uniformName, glm::mat4 value);
+    void SetUniformTexture(const char* uniformName, int slot);
+
+    
 
 
 };

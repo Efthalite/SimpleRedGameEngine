@@ -5,6 +5,7 @@ project("GameEngine1")
 
 file(GLOB_RECURSE CPP_FILES "src/*.cpp")
 file(COPY "src/shaders/" DESTINATION "shaders")
+file(COPY "src/assets/" DESTINATION "assets")
 
 
 add_executable(${PROJECT_NAME} ${CPP_FILES})

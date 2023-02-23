@@ -101,3 +101,18 @@ void Shader::Detach()
 void Shader::Compile()
 {
 }
+
+void Shader::SetUniform1f(const char *uniformName, float value) const
+{
+    glUniform1f(glGetUniformLocation(shaderProgramID, uniformName), value);
+}
+
+void Shader::SetUniformMatrix4f(const char *uniformName, glm::mat4 value)
+{
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgramID, uniformName), 1, GL_FALSE, &value[0][0]);
+}
+
+void Shader::SetUniformTexture(const char *uniformName, int slot)
+{
+    glUniform1i(glGetUniformLocation(shaderProgramID, uniformName), slot);
+}
