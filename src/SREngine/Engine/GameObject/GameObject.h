@@ -13,7 +13,6 @@ class GameObject
 {
 private:
     std::string name;
-    std::list<Component> components;
 
 
 public:
